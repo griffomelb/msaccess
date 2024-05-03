@@ -1,0 +1,6 @@
+Private Sub cmdNewCompany_Click()
+
+DoCmd.OpenForm "frmCompanyNew", acNormal
+DoCmd.GoToRecord , , acNewRec
+
+End Sub
