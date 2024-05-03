@@ -1,3 +1,6 @@
+# updates each form record locking setting to edited record.
+
+
 Sub SetRecordLockingForForms()
     Dim frm As Object
     Dim prop As Property
