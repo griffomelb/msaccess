@@ -1,0 +1,30 @@
+Sub SetRecordLockingForForms()
+    Dim frm As Object
+    Dim prop As Property
+    
+    ' Loop through all forms in the database
+    For Each frm In CurrentProject.AllForms
+        ' Open the form in design view
+        DoCmd.OpenForm frm.Name, acDesign
+        
+        ' Check if the form is open in design view
+        If CurrentProject.AllForms(frm.Name).IsLoaded Then
+            ' Access the form's properties collection
+            For Each prop In Forms(frm.Name).Properties
+                ' Check if the property is the RecordLocks property
+                If prop.Name = "RecordLocks" Then
+                    ' Set Record Locking property to "Edited Record" (0)
+                    prop.Value = 2 ' 1 represents "Edited Record"  ' 0 represent no locks and 1 is all records
+                         ' see https://support.microsoft.com/en-au/office/recordlocks-property-6ca29bbb-8824-4671-8087-97fe0568019a
+                    Exit For ' Exit the loop once the property is found and set
+                End If
+            Next prop
+            
+            ' Save and close the form
+            DoCmd.Close acForm, frm.Name, acSaveYes
+        End If
+    Next frm
+    
+    MsgBox "Record locking property set to 'Edited Record' for all forms.", vbInformation
+End Sub
+
